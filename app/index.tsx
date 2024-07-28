@@ -1,16 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import React from "react";
-import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { Link } from "expo-router";
 
 const index = () => {
   return (
     <View className="flex-1 items-center justify-center ">
       <Text className="text-xl">index</Text>
       <StatusBar style="auto" />
-      <Link href="/profile" className="text-blue-500">
-        Profile
-      </Link>
+      <Link href="/home">go to Home</Link>
     </View>
   );
 };
