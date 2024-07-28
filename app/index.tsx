@@ -5,8 +5,8 @@ import { StatusBar } from "expo-status-bar";
 
 const index = () => {
   return (
-    <View>
-      <Text className="text-sm">index</Text>
+    <View className="flex-1 items-center justify-center ">
+      <Text className="text-xl">index</Text>
       <StatusBar style="auto" />
       <Link href="/profile" className="text-blue-500">
         Profile
