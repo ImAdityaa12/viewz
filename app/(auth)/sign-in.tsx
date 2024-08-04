@@ -21,7 +21,7 @@ const SignIn = () => {
             resizeMode="contain"
             className="w-[115px] h-[35px]"
           />
-          <Text className="text-2xl text-white font-semibold font-psemibold mt-10">
+          <Text className="text-2xl text-white font-semibold font-psemibold mt-10 ">
             Login To Aora
           </Text>
           <FormField
@@ -50,7 +50,10 @@ const SignIn = () => {
           <View className="mt-5">
             <Text className="text-white font-psemibold text-center">
               Don't have an account?{" "}
-              <Link href={"/sign-up"} className="text-gray-200 font-psemibold">
+              <Link
+                href={"/sign-up"}
+                className="font-psemibold text-secondary-200"
+              >
                 Sign Up
               </Link>
             </Text>
