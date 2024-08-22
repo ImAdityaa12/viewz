@@ -1,10 +1,11 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "@/constants";
 import FormField from "@/components/form-field";
 import CustomButton from "@/components/custom-button";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+// import { signIn } from "@/lib/appwrite";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,26 @@ const SignIn = () => {
     password: "",
   });
   const [isSubmitting, setItSubmitting] = useState(false);
+  const userSignIn = async () => {
+    // if (formData.email === "" || formData.password === "") {
+    //   Alert.alert("Error", "Please fill in all fields");
+    // } else {
+    //   setItSubmitting(true);
+    //   try {
+    //     const result = await signIn(formData.email, formData.password);
+    //     console.log(result);
+    router.replace("/home");
+    //   } catch (error) {
+    //     if (error instanceof Error) {
+    //       Alert.alert("Error", error.message);
+    //     } else {
+    //       Alert.alert("Error", "Failed to sign in");
+    //     }
+    //   } finally {
+    //     setItSubmitting(false);
+    //   }
+    // }
+  };
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView className="h-full">
@@ -43,7 +64,7 @@ const SignIn = () => {
           <CustomButton
             title="Login"
             constainerStyles="mt-10"
-            handlePress={() => console.log(formData)}
+            handlePress={userSignIn}
             isLoading={isSubmitting}
             textStyles="text-primary font-psemibold"
           />

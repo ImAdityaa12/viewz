@@ -1,10 +1,11 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "@/constants";
 import FormField from "@/components/form-field";
 import CustomButton from "@/components/custom-button";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { createUser } from "@/lib/appwrite";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,33 @@ const SignUp = () => {
     password: "",
   });
   const [isSubmitting, setItSubmitting] = useState(false);
+  const submit = async () => {
+    if (
+      formData.email === "" ||
+      formData.password === "" ||
+      formData.username === ""
+    ) {
+      Alert.alert("Error", "Please fill in all fields");
+    } else {
+      setItSubmitting(true);
+      try {
+        const result = await createUser(
+          formData.email,
+          formData.password,
+          formData.username
+        );
+        router.replace("/home");
+      } catch (error) {
+        if (error instanceof Error) {
+          Alert.alert("Error", error.message);
+        } else {
+          Alert.alert("Error", "Failed to create account");
+        }
+      } finally {
+        setItSubmitting(false);
+      }
+    }
+  };
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView className="h-full">
@@ -51,9 +79,9 @@ const SignUp = () => {
             placeHolder="Password"
           />
           <CustomButton
-            title="Login"
+            title="Sign Up"
             constainerStyles="mt-10"
-            handlePress={() => console.log(formData)}
+            handlePress={submit}
             isLoading={isSubmitting}
             textStyles="text-primary font-psemibold"
           />
@@ -64,7 +92,7 @@ const SignUp = () => {
                 href={"/sign-in"}
                 className="font-psemibold text-secondary-200"
               >
-                Sign Up
+                Sign In
               </Link>
             </Text>
           </View>
