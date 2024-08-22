@@ -1,4 +1,3 @@
-import { Image, ImageSourcePropType } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
 import { Bookmark, Home, Plus, User } from "lucide-react-native";
