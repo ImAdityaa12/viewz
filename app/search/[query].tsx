@@ -43,6 +43,33 @@ const Search = () => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={refetch} />
         }
+        ListHeaderComponent={() => (
+          <View className="w-full my-6 space-y-6">
+            <View className="justify-between flex-row mb-6 w-full">
+              <View>
+                <Text className="font-pmedium text-2xl text-gray-100">
+                  Welcome Back
+                </Text>
+                <Text className="text-2xl text-white font-psemibold">
+                  Aditya
+                </Text>
+              </View>
+              <View className="my-1.5">
+                <Image
+                  source={images.logoSmall}
+                  className="h-9 w-10"
+                  resizeMode="contain"
+                />
+              </View>
+            </View>
+            <SearchInput />
+            <View className="w-full flex-1 pt-5 pb-8">
+              <Text className="text-gray-100 text-lg font-pregular">
+                Latest Videos
+              </Text>
+            </View>
+          </View>
+        )}
       />
     </SafeAreaView>
   );
