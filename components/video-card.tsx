@@ -23,7 +23,7 @@ const VideoCard = ({
 }: VideoCardProps) => {
   const [play, setPlay] = useState(false);
   return (
-    <View className="min-h-72 mt-4 flex-col items-center justify-center mb-6">
+    <View className="min-h-72 mt- flex-col items-center justify-center mb-6">
       <View className="h-14 flex flex-row w-full items-center py-2">
         <View className="w-[46px] h-[46px] rounded-lg border border-secondary-100 justify-center items-center p-[0.5]">
           <Image
