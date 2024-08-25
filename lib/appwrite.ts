@@ -141,3 +141,20 @@ export const searchPosts = async (text: string) => {
     }
   }
 };
+export const userPosts = async (userId: string | undefined) => {
+  console.log(userId);
+  try {
+    const posts = await databases.listDocuments(
+      databaseId,
+      videosCollectionId,
+      [Query.equal("creator", userId || "")]
+    );
+    return posts.documents;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error("Failed to get posts");
+    }
+  }
+};
