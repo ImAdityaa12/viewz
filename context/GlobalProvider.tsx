@@ -40,7 +40,6 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(null);
       });
   }, []);
-
   return (
     <GlobalContext.Provider
       value={
