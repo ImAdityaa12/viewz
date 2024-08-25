@@ -1,37 +1,44 @@
 import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "@/constants";
 import FormField from "@/components/form-field";
 import CustomButton from "@/components/custom-button";
 import { Link, router } from "expo-router";
+import { useGlobalContext } from "@/context/GlobalProvider";
+import { getCurrentUser, signIn } from "@/lib/appwrite";
 // import { signIn } from "@/lib/appwrite";
 
 const SignIn = () => {
-  const [formData, setFormData] = useState({
+  const { setUser, setIsLoggedIn, isLoggedIn } = useGlobalContext();
+  const [isSubmitting, setSubmitting] = useState(false);
+  const [form, setForm] = useState({
     email: "",
     password: "",
   });
-  const [isSubmitting, setItSubmitting] = useState(false);
-  const userSignIn = async () => {
-    // if (formData.email === "" || formData.password === "") {
-    //   Alert.alert("Error", "Please fill in all fields");
-    // } else {
-    //   setItSubmitting(true);
-    //   try {
-    //     const result = await signIn(formData.email, formData.password);
-    //     console.log(result);
-    router.replace("/home");
-    //   } catch (error) {
-    //     if (error instanceof Error) {
-    //       Alert.alert("Error", error.message);
-    //     } else {
-    //       Alert.alert("Error", "Failed to sign in");
-    //     }
-    //   } finally {
-    //     setItSubmitting(false);
-    //   }
-    // }
+
+  const submit = async () => {
+    if (form.email === "" || form.password === "") {
+      Alert.alert("Error", "Please fill in all fields");
+    }
+
+    setSubmitting(true);
+    try {
+      await signIn(form.email, form.password);
+      const result = await getCurrentUser();
+      setUser(result);
+      setIsLoggedIn(true);
+
+      Alert.alert("Success", "User signed in successfully");
+      router.replace("/home");
+    } catch (error) {
+      router.replace("/home");
+      if (error instanceof Error) {
+        Alert.alert("Error", error.message);
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -47,24 +54,22 @@ const SignIn = () => {
           </Text>
           <FormField
             name="Email"
-            value={formData.email}
-            handleChange={(e: string) => setFormData({ ...formData, email: e })}
+            value={form.email}
+            handleChange={(e: string) => setForm({ ...form, email: e })}
             styles="mt-7"
             placeHolder="Email"
           />
           <FormField
             name="Password"
-            value={formData.password}
-            handleChange={(e: string) =>
-              setFormData({ ...formData, password: e })
-            }
+            value={form.password}
+            handleChange={(e: string) => setForm({ ...form, password: e })}
             styles="mt-7"
             placeHolder="Password"
           />
           <CustomButton
             title="Login"
             constainerStyles="mt-10"
-            handlePress={userSignIn}
+            handlePress={submit}
             isLoading={isSubmitting}
             textStyles="text-primary font-psemibold"
           />
