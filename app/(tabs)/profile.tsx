@@ -1,27 +1,39 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
-import { FlatList, Image, RefreshControl, Text, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  RefreshControl,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { images } from "../../constants";
 import SearchInput from "@/components/search-input";
 import Trending from "@/components/trending";
 import VideoCard from "@/components/video-card";
-import { searchPosts, userPosts } from "@/lib/appwrite";
+import { searchPosts, signOut, userPosts } from "@/lib/appwrite";
 import { Models } from "react-native-appwrite";
 import { useAppwrite } from "@/lib/useAppwrite";
 import EmptyState from "@/components/empty-state";
 import { useGlobalContext } from "@/context/GlobalProvider";
+import { LogOut } from "lucide-react-native";
 
 const Profile = () => {
   const { user } = useGlobalContext();
   const [refreshing] = useState(false);
   const [currentVideo, setCurrentVideo] = useState<number | null>(null);
   const { data, refetch } = useAppwrite(() => userPosts(user?.$id));
-  console.log(user);
   useEffect(() => {
     refetch();
   }, [user]);
-
+  const signOutAPP = async () => {
+    await signOut();
+    router.push("/sign-in");
+    ToastAndroid.show("Signed out successfully", ToastAndroid.SHORT);
+  };
   return (
     <SafeAreaView className="h-full w-full bg-primary">
       <FlatList
@@ -43,29 +55,40 @@ const Profile = () => {
           <RefreshControl refreshing={refreshing} onRefresh={refetch} />
         }
         ListHeaderComponent={() => (
-          <View className="w-full my-6 space-y-6">
-            <View className="justify-between flex-row mb-6 w-full">
-              <View>
-                <Text className="font-pmedium text-2xl text-gray-100">
-                  Welcome Back
-                </Text>
-                <Text className="text-2xl text-white font-psemibold">
-                  Aditya
-                </Text>
-              </View>
-              <View className="my-1.5">
+          <View className="w-full justify-center items-center mt-6 mb-12 px-4">
+            <TouchableOpacity className="w-full" onPress={signOutAPP}>
+              <LogOut className="text-red-500 ml-auto" />
+            </TouchableOpacity>
+            <View className="w-full items-center  justify-center">
+              <View className="h-16 w-16 border-2 border-yellow-400 rounded-full items-center justify-center">
                 <Image
-                  source={images.logoSmall}
-                  className="h-9 w-10"
-                  resizeMode="contain"
+                  source={{ uri: user?.Avatar }}
+                  className="w-[90%] h-[90%] rounded-full"
                 />
               </View>
-            </View>
-            <SearchInput />
-            <View className="w-full flex-1 pt-5">
-              <Text className="text-gray-100 text-lg font-pregular">
-                Latest Videos
+              <Text className="text-white font-pmedium mt-2">
+                {user?.username}
               </Text>
+              <View className="w-full justify-center items-center">
+                <View className="w-[40%] flex flex-row justify-between">
+                  <View className="items-center mt-2 justify-center">
+                    <Text className="text-white text-xl font-pmedium">
+                      {data?.length}
+                    </Text>
+                    <Text className="text-white text-sm font-pmedium">
+                      Posts
+                    </Text>
+                  </View>
+                  <View className="items-center mt-2 justify-center">
+                    <Text className="text-white text-xl font-pmedium">
+                      1.5k
+                    </Text>
+                    <Text className="text-white text-sm font-pmedium">
+                      Followers
+                    </Text>
+                  </View>
+                </View>
+              </View>
             </View>
           </View>
         )}
