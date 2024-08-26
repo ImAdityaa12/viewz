@@ -1,11 +1,14 @@
+import { DocumentPickerAsset } from "expo-document-picker";
 import {
   Account,
   Avatars,
   Client,
   Databases,
   ID,
+  ImageGravity,
   Models,
   Query,
+  Storage,
 } from "react-native-appwrite";
 export const appwriteConfig = {
   endpoint: "https://cloud.appwrite.io/v1",
@@ -37,6 +40,7 @@ client
 const account = new Account(client);
 const avatar = new Avatars(client);
 const databases = new Databases(client);
+const storage = new Storage(client);
 export const createUser = async (
   email: string,
   password: string,
@@ -142,7 +146,6 @@ export const searchPosts = async (text: string) => {
   }
 };
 export const userPosts = async (userId: string | undefined) => {
-  console.log(userId);
   try {
     const posts = await databases.listDocuments(
       databaseId,
@@ -155,6 +158,93 @@ export const userPosts = async (userId: string | undefined) => {
       throw new Error(error.message);
     } else {
       throw new Error("Failed to get posts");
+    }
+  }
+};
+
+type Post = {
+  title: string;
+  video: DocumentPickerAsset;
+  thumbnail: DocumentPickerAsset;
+  prompt: string;
+  creator: string | undefined;
+};
+
+export const getPreview = async (fileId: string, type: string) => {
+  console.log("sdnjfds");
+  let fileUrl;
+  try {
+    if (type === "image") {
+      fileUrl = storage.getFilePreview(
+        storageId,
+        fileId,
+        2000,
+        2000,
+        ImageGravity.Top,
+        100
+      );
+    } else if (type === "video") {
+      fileUrl = storage.getFileView(storageId, fileId);
+    } else {
+      throw new Error("Unsupported file type");
+    }
+    if (!fileUrl) {
+      throw new Error("Failed to get file preview");
+    }
+    return fileUrl;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error("Failed to get file preview");
+    }
+  }
+};
+export const uploadFile = async (file: DocumentPickerAsset, type: string) => {
+  if (!file) return;
+  const { mimeType, ...rest } = file;
+  const asset = {
+    type: mimeType || "application/octet-stream",
+    ...rest,
+    size: file.size || 0,
+  };
+  try {
+    const uploadedFile = await storage.createFile(
+      storageId,
+      ID.unique(),
+      asset as { name: string; type: string; size: number; uri: string }
+    );
+    const fileUrl = await getPreview(uploadedFile.$id, type);
+    return fileUrl;
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    throw error;
+  }
+};
+export const createPost = async (data: Post) => {
+  try {
+    const [thumbnailUrl, videoUrl] = await Promise.all([
+      uploadFile(data.thumbnail, "image"),
+      uploadFile(data.video, "video"),
+    ]);
+    const newPost = await databases.createDocument(
+      databaseId,
+      videosCollectionId,
+      ID.unique(),
+      {
+        title: data.title,
+        video: videoUrl,
+        thumbnail: thumbnailUrl,
+        prompt: data.prompt,
+        creator: data.creator,
+      }
+    );
+    return newPost;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error("Failed to create post");
     }
   }
 };
