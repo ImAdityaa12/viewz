@@ -7,13 +7,6 @@ import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
 import { useGlobalContext } from "@/context/GlobalProvider";
 const index = () => {
-  const { isLoggedIn } = useGlobalContext();
-  useEffect(() => {
-    if (isLoggedIn) {
-      ToastAndroid.show("User signed in successfully", ToastAndroid.SHORT);
-      router.replace("/home");
-    }
-  }, [isLoggedIn]);
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
