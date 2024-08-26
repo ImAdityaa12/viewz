@@ -12,7 +12,7 @@ import { useAppwrite } from "@/lib/useAppwrite";
 function Home() {
   const [refreshing, setRefreshing] = useState(false);
   const [currentVideo, setCurrentVideo] = useState<number | null>(null);
-  const { data, isLoading, refetch } = useAppwrite(getAllPosts);
+  const { data, refetch } = useAppwrite(getAllPosts);
 
   const { data: latest } = useAppwrite(getLatestPost);
   const onRefresh = async () => {
