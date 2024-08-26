@@ -1,4 +1,5 @@
 import { getCurrentUser } from "@/lib/appwrite";
+import { router } from "expo-router";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Models } from "react-native-appwrite";
 
@@ -27,9 +28,11 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     getCurrentUser()
       .then((res) => {
+        console.log(res);
         if (res) {
           setIsLoggedIn(true);
           setUser(res);
+          router.replace("/home");
         } else {
           setIsLoggedIn(false);
           setUser(null);
