@@ -248,3 +248,15 @@ export const createPost = async (data: Post) => {
     }
   }
 };
+
+export const signOut = async () => {
+  try {
+    await account.deleteSession("current");
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error("Failed to sign out");
+    }
+  }
+};
