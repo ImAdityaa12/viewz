@@ -171,7 +171,6 @@ type Post = {
 };
 
 export const getPreview = async (fileId: string, type: string) => {
-  console.log("sdnjfds");
   let fileUrl;
   try {
     if (type === "image") {
@@ -257,6 +256,57 @@ export const signOut = async () => {
       throw new Error(error.message);
     } else {
       throw new Error("Failed to sign out");
+    }
+  }
+};
+
+export const addUserIdInLiked = async (
+  user: Models.Document,
+  videoId: string,
+  action: "like" | "unlike"
+) => {
+  try {
+    const post = await databases.getDocument(
+      databaseId,
+      videosCollectionId,
+      videoId
+    );
+    const updatedLike =
+      action === "unlike"
+        ? post.likes.filter((user: Models.Document) => user.$id !== user.$id)
+        : [...post.likes, user.$id];
+    const result = await databases.updateDocument(
+      databaseId,
+      videosCollectionId,
+      videoId,
+      {
+        likes: updatedLike,
+      }
+    );
+    console.log(post, result);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error("Failed to add user id in likes");
+    }
+  }
+};
+
+export const getLikedPosts = async (userId: string) => {
+  try {
+    const currentUser = await databases.getDocument(
+      databaseId,
+      userCollectionId,
+      userId
+    );
+    const posts = await databases.listDocuments(databaseId, videosCollectionId);
+    return posts.documents;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error("Failed to get posts");
     }
   }
 };

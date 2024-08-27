@@ -1,26 +1,33 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { Models } from "react-native-appwrite";
-import { CirclePlay, Ellipsis } from "lucide-react-native";
+import { CirclePlay, Ellipsis, Heart, HeartPulse } from "lucide-react-native";
 import { ResizeMode, Video } from "expo-av";
+import { addUserIdInLiked } from "@/lib/appwrite";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 interface VideoCardProps {
   video: Models.Document;
   index: number;
   currentVideo: number | null;
   setCurrentVideo: React.Dispatch<React.SetStateAction<number | null>>;
+  videoId: string | undefined;
 }
 const VideoCard = ({
   video: {
     title,
     thumbnail,
     video,
+    likes,
     creator: { Avatar, username },
   },
   index,
   currentVideo,
   setCurrentVideo,
+
+  videoId,
 }: VideoCardProps) => {
+  const { user } = useGlobalContext();
   const [play, setPlay] = useState(false);
   return (
     <View className="min-h-72 mt- flex-col items-center justify-center mb-6">
@@ -37,7 +44,27 @@ const VideoCard = ({
           <Text className="text-gray-100">{username}</Text>
         </View>
         <TouchableOpacity className="ml-auto">
-          <Ellipsis className="text-white rotate-90" size={20} />
+          {likes
+            .map((user: Models.Document) => user.$id)
+            .includes(user?.$id) ? (
+            <HeartPulse
+              className="text-red-500"
+              onPress={() => {
+                if (user !== null) {
+                  addUserIdInLiked(user, videoId ?? "", "unlike");
+                }
+              }}
+            />
+          ) : (
+            <Heart
+              className="text-red-500"
+              onPress={() => {
+                if (user !== null) {
+                  addUserIdInLiked(user, videoId ?? "", "like");
+                }
+              }}
+            />
+          )}
         </TouchableOpacity>
       </View>
       {play && index === currentVideo ? (

@@ -28,11 +28,11 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     getCurrentUser()
       .then((res) => {
-        console.log(res);
         if (res) {
           setIsLoggedIn(true);
           setUser(res);
           router.replace("/home");
+          // console.log(user);
         } else {
           setIsLoggedIn(false);
           setUser(null);

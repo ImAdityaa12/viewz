@@ -48,6 +48,7 @@ const Profile = () => {
             currentVideo={currentVideo}
             setCurrentVideo={setCurrentVideo}
             index={index}
+            videoId={item.$id}
           />
         )}
         className="px-4"

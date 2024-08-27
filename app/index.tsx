@@ -5,7 +5,6 @@ import { images } from "../constants";
 import CustomButton from "@/components/custom-button";
 import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
-import { useGlobalContext } from "@/context/GlobalProvider";
 const index = () => {
   return (
     <SafeAreaView className="bg-primary h-full">

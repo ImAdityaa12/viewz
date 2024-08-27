@@ -8,12 +8,13 @@ import { getAllPosts, getLatestPost } from "@/lib/appwrite";
 
 import VideoCard from "@/components/video-card";
 import { useAppwrite } from "@/lib/useAppwrite";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 function Home() {
   const [refreshing, setRefreshing] = useState(false);
   const [currentVideo, setCurrentVideo] = useState<number | null>(null);
   const { data, refetch } = useAppwrite(getAllPosts);
-
+  const { user } = useGlobalContext();
   const { data: latest } = useAppwrite(getLatestPost);
   const onRefresh = async () => {
     setRefreshing(true);
@@ -31,6 +32,7 @@ function Home() {
             currentVideo={currentVideo}
             setCurrentVideo={setCurrentVideo}
             index={index}
+            videoId={item.$id}
           />
         )}
         className="px-4"

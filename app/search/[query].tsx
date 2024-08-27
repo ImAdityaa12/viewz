@@ -10,6 +10,7 @@ import { searchPosts } from "@/lib/appwrite";
 import { Models } from "react-native-appwrite";
 import { useAppwrite } from "@/lib/useAppwrite";
 import EmptyState from "@/components/empty-state";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 const Search = () => {
   const { query } = useLocalSearchParams();
@@ -18,7 +19,7 @@ const Search = () => {
   const { data, refetch, isLoading } = useAppwrite(() =>
     searchPosts(query as string)
   );
-
+  const { user } = useGlobalContext();
   useEffect(() => {
     refetch();
   }, [query]);
@@ -37,6 +38,7 @@ const Search = () => {
             currentVideo={currentVideo}
             setCurrentVideo={setCurrentVideo}
             index={index}
+            videoId={item.$id}
           />
         )}
         className="px-4"
