@@ -13,7 +13,7 @@ import { ResizeMode, Video } from "expo-av";
 import { UploadCloud, X } from "lucide-react-native";
 import CustomButton from "@/components/custom-button";
 import * as DocumentPicker from "expo-document-picker";
-import { createPost, uploadFile } from "@/lib/appwrite";
+import { createPost } from "@/lib/appwrite";
 import { useGlobalContext } from "@/context/GlobalProvider";
 type formData = {
   title: string;

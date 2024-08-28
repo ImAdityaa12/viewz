@@ -1,4 +1,4 @@
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
 import {
@@ -10,11 +10,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { images } from "../../constants";
-import SearchInput from "@/components/search-input";
-import Trending from "@/components/trending";
 import VideoCard from "@/components/video-card";
-import { searchPosts, signOut, userPosts } from "@/lib/appwrite";
+import { signOut, userPosts } from "@/lib/appwrite";
 import { Models } from "react-native-appwrite";
 import { useAppwrite } from "@/lib/useAppwrite";
 import EmptyState from "@/components/empty-state";

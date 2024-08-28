@@ -5,10 +5,8 @@ import { images } from "../../constants";
 import SearchInput from "@/components/search-input";
 import Trending from "@/components/trending";
 import { getAllPosts, getLatestPost } from "@/lib/appwrite";
-
 import VideoCard from "@/components/video-card";
 import { useAppwrite } from "@/lib/useAppwrite";
-import { useGlobalContext } from "@/context/GlobalProvider";
 
 function Home() {
   const [refreshing, setRefreshing] = useState(false);

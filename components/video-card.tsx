@@ -1,7 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { Models } from "react-native-appwrite";
-import { CirclePlay, Ellipsis, Heart, HeartPulse } from "lucide-react-native";
+import { CirclePlay, Heart, HeartPulse } from "lucide-react-native";
 import { ResizeMode, Video } from "expo-av";
 import { addUserIdInLiked } from "@/lib/appwrite";
 import { useGlobalContext } from "@/context/GlobalProvider";

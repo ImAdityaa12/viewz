@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Image, ScrollView, Text, ToastAndroid, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../constants";
 import CustomButton from "@/components/custom-button";
 import { StatusBar } from "expo-status-bar";
-import { Redirect, router } from "expo-router";
+import { router } from "expo-router";
 const index = () => {
   return (
     <SafeAreaView className="bg-primary h-full">

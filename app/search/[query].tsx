@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { FlatList, Image, RefreshControl, Text, View } from "react-native";
 import { images } from "../../constants";
 import SearchInput from "@/components/search-input";
-import Trending from "@/components/trending";
 import VideoCard from "@/components/video-card";
 import { searchPosts } from "@/lib/appwrite";
 import { Models } from "react-native-appwrite";
