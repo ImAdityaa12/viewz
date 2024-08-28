@@ -39,6 +39,7 @@ const Search = () => {
             setCurrentVideo={setCurrentVideo}
             index={index}
             videoId={item.$id}
+            refetch={refetch}
           />
         )}
         className="px-4"

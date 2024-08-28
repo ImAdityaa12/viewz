@@ -9,10 +9,10 @@ const index = () => {
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
-        <View className=" items-center h-full w-full pt-4">
+        <View className="items-center h-full w-full pt-4 border">
           <Image
             source={images.logo}
-            className="w-[130px] h-[84px]"
+            className="w-[300px] h-[120px]"
             resizeMode="contain"
           />
           <Image
@@ -37,7 +37,7 @@ const index = () => {
           <CustomButton
             title="Continue With Email"
             textStyles="w-full"
-            constainerStyles="mt-auto mb-4 w-[90%]"
+            constainerStyles="mt-auto mb-10 w-[90%]"
             handlePress={() => router.push("/sign-in")}
           />
         </View>

@@ -47,10 +47,10 @@ const SignIn = () => {
           <Image
             source={images.logo}
             resizeMode="contain"
-            className="w-[115px] h-[35px]"
+            className="w-[150px] h-[75px]"
           />
-          <Text className="text-2xl text-white font-semibold font-psemibold mt-10 ">
-            Login To Aora
+          <Text className="text-2xl text-white font-semibold font-psemibold mt-10">
+            Login To Viewz
           </Text>
           <FormField
             name="Email"

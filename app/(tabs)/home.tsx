@@ -14,7 +14,6 @@ function Home() {
   const [refreshing, setRefreshing] = useState(false);
   const [currentVideo, setCurrentVideo] = useState<number | null>(null);
   const { data, refetch } = useAppwrite(getAllPosts);
-  const { user } = useGlobalContext();
   const { data: latest } = useAppwrite(getLatestPost);
   const onRefresh = async () => {
     setRefreshing(true);
@@ -33,6 +32,7 @@ function Home() {
             setCurrentVideo={setCurrentVideo}
             index={index}
             videoId={item.$id}
+            refetch={refetch}
           />
         )}
         className="px-4"

@@ -14,6 +14,7 @@ function Bookmark() {
   const [refreshing, setRefreshing] = useState(false);
   const [currentVideo, setCurrentVideo] = useState<number | null>(null);
   const { data, refetch } = useAppwrite(() => getLikedPosts(user?.$id ?? ""));
+  console.log(data);
   const [filteredData, setFilteredData] = useState<any>([]);
   const { user } = useGlobalContext();
   useEffect(() => {
@@ -22,7 +23,7 @@ function Bookmark() {
         item.likes.some((like: any) => like.$id === user?.$id)
       )
     );
-  }, []);
+  }, [data]);
   const onRefresh = async () => {
     setRefreshing(true);
     await refetch();
@@ -40,6 +41,7 @@ function Bookmark() {
             setCurrentVideo={setCurrentVideo}
             index={index}
             videoId={item.$id}
+            refetch={refetch}
           />
         )}
         className="px-4"

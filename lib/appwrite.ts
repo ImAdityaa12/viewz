@@ -283,7 +283,6 @@ export const addUserIdInLiked = async (
         likes: updatedLike,
       }
     );
-    console.log(post, result);
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message);
@@ -295,11 +294,7 @@ export const addUserIdInLiked = async (
 
 export const getLikedPosts = async (userId: string) => {
   try {
-    const currentUser = await databases.getDocument(
-      databaseId,
-      userCollectionId,
-      userId
-    );
+    await databases.getDocument(databaseId, userCollectionId, userId);
     const posts = await databases.listDocuments(databaseId, videosCollectionId);
     return posts.documents;
   } catch (error) {

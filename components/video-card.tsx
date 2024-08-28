@@ -12,6 +12,7 @@ interface VideoCardProps {
   currentVideo: number | null;
   setCurrentVideo: React.Dispatch<React.SetStateAction<number | null>>;
   videoId: string | undefined;
+  refetch: () => Promise<void>;
 }
 const VideoCard = ({
   video: {
@@ -24,11 +25,24 @@ const VideoCard = ({
   index,
   currentVideo,
   setCurrentVideo,
-
   videoId,
+  refetch,
 }: VideoCardProps) => {
   const { user } = useGlobalContext();
   const [play, setPlay] = useState(false);
+  const unlikeVideo = async () => {
+    if (user !== null) {
+      await addUserIdInLiked(user, videoId ?? "", "unlike");
+      await refetch();
+    }
+  };
+
+  const likeVideo = async () => {
+    if (user !== null) {
+      await addUserIdInLiked(user, videoId ?? "", "like");
+      await refetch();
+    }
+  };
   return (
     <View className="min-h-72 mt- flex-col items-center justify-center mb-6">
       <View className="h-14 flex flex-row w-full items-center py-2">
@@ -50,18 +64,14 @@ const VideoCard = ({
             <HeartPulse
               className="text-red-500"
               onPress={() => {
-                if (user !== null) {
-                  addUserIdInLiked(user, videoId ?? "", "unlike");
-                }
+                unlikeVideo();
               }}
             />
           ) : (
             <Heart
               className="text-red-500"
               onPress={() => {
-                if (user !== null) {
-                  addUserIdInLiked(user, videoId ?? "", "like");
-                }
+                likeVideo();
               }}
             />
           )}

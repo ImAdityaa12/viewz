@@ -24,11 +24,7 @@ const SignUp = () => {
     } else {
       setItSubmitting(true);
       try {
-        const result = await createUser(
-          formData.email,
-          formData.password,
-          formData.username
-        );
+        await createUser(formData.email, formData.password, formData.username);
         router.replace("/home");
       } catch (error) {
         if (error instanceof Error) {
@@ -48,7 +44,7 @@ const SignUp = () => {
           <Image
             source={images.logo}
             resizeMode="contain"
-            className="w-[115px] h-[35px]"
+            className="w-[150px] h-[75px]"
           />
           <Text className="text-2xl text-white font-semibold font-psemibold mt-10">
             Sign Up To Aora
