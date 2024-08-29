@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "jsEngine": "hermes",
-    "icon": "./assets/images/logo-small.png",
+    "icon": "./assets/images/square-logo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -31,6 +31,14 @@
     "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "2238b7fb-5af4-48ab-be6d-d229c4cb5ac1"
+      }
     }
   }
 }
