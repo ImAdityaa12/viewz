@@ -30,6 +30,7 @@ const Profile = () => {
     await signOut();
     router.push("/sign-in");
     ToastAndroid.show("Signed out successfully", ToastAndroid.SHORT);
+    router.dismissAll();
   };
   return (
     <SafeAreaView className="h-full w-full bg-primary">
