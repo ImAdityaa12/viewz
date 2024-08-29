@@ -1,5 +1,5 @@
-import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import { Alert, Image, ScrollView, Text, View } from "react-native";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "@/constants";
 import FormField from "@/components/form-field";
@@ -7,10 +7,9 @@ import CustomButton from "@/components/custom-button";
 import { Link, router } from "expo-router";
 import { useGlobalContext } from "@/context/GlobalProvider";
 import { getCurrentUser, signIn } from "@/lib/appwrite";
-// import { signIn } from "@/lib/appwrite";
 
 const SignIn = () => {
-  const { setUser, setIsLoggedIn, isLoggedIn } = useGlobalContext();
+  const { setUser, setIsLoggedIn } = useGlobalContext();
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     email: "",
