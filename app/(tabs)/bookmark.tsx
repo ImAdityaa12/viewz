@@ -6,12 +6,12 @@ import { getLikedPosts } from "@/lib/appwrite";
 import VideoCard from "@/components/video-card";
 import { useAppwrite } from "@/lib/useAppwrite";
 import { useGlobalContext } from "@/context/GlobalProvider";
+import EmptyState from "@/components/empty-state";
 
 function Bookmark() {
   const [refreshing, setRefreshing] = useState(false);
   const [currentVideo, setCurrentVideo] = useState<number | null>(null);
   const { data, refetch } = useAppwrite(() => getLikedPosts(user?.$id ?? ""));
-  console.log(data);
   const [filteredData, setFilteredData] = useState<any>([]);
   const { user } = useGlobalContext();
   useEffect(() => {
@@ -51,6 +51,12 @@ function Bookmark() {
             <SearchInput />
           </View>
         )}
+        ListEmptyComponent={
+          <EmptyState
+            title="No liked Videos Found"
+            subtitle="Go to home page and like any video."
+          />
+        }
       />
     </SafeAreaView>
   );

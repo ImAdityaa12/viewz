@@ -32,7 +32,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
           setIsLoggedIn(true);
           setUser(res);
           router.replace("/home");
-          // console.log(user);
+          router.dismissAll();
         } else {
           setIsLoggedIn(false);
           setUser(null);

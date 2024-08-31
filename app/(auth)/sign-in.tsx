@@ -1,5 +1,5 @@
 import { Alert, Image, ScrollView, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "@/constants";
 import FormField from "@/components/form-field";
@@ -9,13 +9,17 @@ import { useGlobalContext } from "@/context/GlobalProvider";
 import { getCurrentUser, signIn } from "@/lib/appwrite";
 
 const SignIn = () => {
-  const { setUser, setIsLoggedIn } = useGlobalContext();
+  const { setUser, setIsLoggedIn, isLoggedIn } = useGlobalContext();
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.replace("/home");
+    }
+  }, [isLoggedIn]);
   const submit = async () => {
     if (form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
@@ -23,8 +27,7 @@ const SignIn = () => {
 
     setSubmitting(true);
     try {
-      const res = await signIn(form.email, form.password);
-      console.log("res", res);
+      await signIn(form.email, form.password);
       const result = await getCurrentUser();
       setUser(result);
       setIsLoggedIn(true);
@@ -33,6 +36,12 @@ const SignIn = () => {
       router.replace("/home");
     } catch (error) {
       if (error instanceof Error) {
+        if (
+          error.message ===
+          "Creation of a session is prohibited when a session is active."
+        ) {
+          router.replace("/home");
+        }
         Alert.alert("Error", error.message);
       }
     } finally {

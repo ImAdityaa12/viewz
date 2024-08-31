@@ -7,10 +7,12 @@ import Trending from "@/components/trending";
 import { getAllPosts, getLatestPost } from "@/lib/appwrite";
 import VideoCard from "@/components/video-card";
 import { useAppwrite } from "@/lib/useAppwrite";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 function Home() {
   const [refreshing, setRefreshing] = useState(false);
   const [currentVideo, setCurrentVideo] = useState<number | null>(null);
+  const { user } = useGlobalContext();
   const { data, refetch } = useAppwrite(getAllPosts);
   const { data: latest } = useAppwrite(getLatestPost);
   const onRefresh = async () => {
@@ -45,7 +47,7 @@ function Home() {
                   Welcome Back
                 </Text>
                 <Text className="text-2xl text-white font-psemibold">
-                  Aditya
+                  {user?.username}
                 </Text>
               </View>
               <View className="my-1.5">

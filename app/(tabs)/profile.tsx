@@ -19,7 +19,7 @@ import { useGlobalContext } from "@/context/GlobalProvider";
 import { LogOut } from "lucide-react-native";
 
 const Profile = () => {
-  const { user } = useGlobalContext();
+  const { user, setIsLoggedIn } = useGlobalContext();
   const [refreshing] = useState(false);
   const [currentVideo, setCurrentVideo] = useState<number | null>(null);
   const { data, refetch } = useAppwrite(() => userPosts(user?.$id));
@@ -28,6 +28,7 @@ const Profile = () => {
   }, [user]);
   const signOutAPP = async () => {
     await signOut();
+    setIsLoggedIn(false);
     router.push("/sign-in");
     ToastAndroid.show("Signed out successfully", ToastAndroid.SHORT);
     router.dismissAll();
